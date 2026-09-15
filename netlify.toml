@@ -1,7 +1,7 @@
 [build]
   base = "frontend"
   command = "npm run build"
-  publish = "frontend/dist"
+  publish = "dist"
 
 # Ohne diese Regel gibt Netlify bei direktem Aufruf von z.B. /norm/123
 # einen 404 zurück, weil physisch keine solche Datei existiert — React
