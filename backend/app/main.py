@@ -1,5 +1,6 @@
 """Normgraph API — semantische Suche + Verweis-Navigation über deutsches Bundesrecht."""
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -23,10 +24,14 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Für die lokale Frontend-Entwicklung offen; vor Deployment auf konkrete Origin(s) einschränken.
+# Für lokale Entwicklung fällt das auf "*" zurück. Im Deployment ALLOWED_ORIGINS
+# als kommagetrennte Liste setzen, z.B. "https://normgraph.netlify.app".
+allowed_origins_raw = os.environ.get("ALLOWED_ORIGINS", "*")
+allowed_origins = [o.strip() for o in allowed_origins_raw.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_methods=["GET"],
     allow_headers=["*"],
 )
