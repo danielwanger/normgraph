@@ -3,6 +3,16 @@
   command = "npm run build"
   publish = "dist"
 
+# Proxy zum Backend: der Browser spricht nur mit Netlify (HTTPS), Netlify
+# leitet serverseitig an das Coolify-Backend weiter (HTTP dort ist ok, weil
+# kein Browser involviert ist). Umgeht das Mixed-Content-Problem, solange
+# das Backend noch keine eigene Domain mit gültigem SSL-Zertifikat hat.
+[[redirects]]
+  from = "/api/*"
+  to = "http://s1170cyn0mmtqz5ipd43r4ng.178.105.151.185.sslip.io/:splat"
+  status = 200
+  force = true
+
 # Ohne diese Regel gibt Netlify bei direktem Aufruf von z.B. /norm/123
 # einen 404 zurück, weil physisch keine solche Datei existiert — React
 # Router übernimmt das Routing erst, nachdem index.html geladen ist.
